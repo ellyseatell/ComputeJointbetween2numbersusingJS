@@ -1,0 +1,82 @@
+//let MAX=100000000
+
+
+function getDigitsSum(x)
+{
+    var  remainder, sumOfDigits = 0;
+    while(x)
+    {
+        remainder = x % 10; //for example getdigitsSum of this number 2384, remainder=2384 %10=4 (because 2394 divise par 10 me donne 238.4 le reste est 4)
+        sumOfDigits = sumOfDigits + remainder; //2384 plus 4
+        x = Math.floor(x/10);//Math.floor rounds down,and returns the largest integer less than or equal to a given number. so here 2394 rounded down to 2394/10 which is 238.9 so 238
+                  //for example: console.log(Math.floor(5.95));
+                  // Expected output: 5
+    }
+   return (sumOfDigits);
+}
+
+
+function computeJoinPoint(s1, s2) {
+    // Write your code here 
+        // If one of the sequence exceeds the maximum, then return -1
+       /* if(s1 >= MAX || s2 >= MAX) {
+            return -1;
+        }*/
+ 
+        // if sequence1 equals sequence2, then join point is
+        // sequence1 (as well sequence2)
+        if(s1 == s2) {
+            return s1;
+        }
+
+        if (s1>0 && s2<20000000){
+ 
+        // next1 is the next point following sequence1
+        let next1 = s1 + getDigitsSum(s1);
+ 
+        // next2 is the next point following sequence2
+        let next2 = s2 + getDigitsSum(s2);
+ 
+        // if next1 equals sequence2, the join point is next1 (as well sequence2)
+        if(next1 == s2) {
+            return next1;
+        }
+ 
+        // if next2 equals sequence1, the join point is next2 (as well sequence1)
+        if(next2 == s1) {
+            return next2;
+        }
+ 
+        // if next1 equals next2, the join point is next1 (as well next2)
+        if(next1 == next2) {
+            return next1;
+        }
+ 
+        // If next 1 is strictly less than sequence2, then compute join of next1 and sequence2
+        if(next1 < s2) {
+            return computeJoinPoint(next1, s2);
+        }
+ 
+        // If next2 is strictly less than sequence1, then compute join of next2 and sequence1
+        if(next2 < s1) {
+            return computeJoinPoint(next2, s1);
+        }
+ 
+        // Otherwise, compute join of next1 and next2
+        return computeJoinPoint(next1, next2);
+    }
+    }
+
+    
+
+/* Ignore and do not change the code below */
+const s1 = parseInt(readline());
+const s2 = parseInt(readline());
+const oldWrite = process.stdout.write;
+process.stdout.write = chunk => { console.error(chunk); return true }
+const res = computeJoinPoint(s1, s2);
+process.stdout.write = oldWrite;
+console.log(res);
+/* Ignore and do not change the code above */
+
+
